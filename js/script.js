@@ -5,7 +5,7 @@ FSJS project 2 - List Filter and Pagination
 
 const listItems = document.querySelectorAll('.student-list')[0].children; //selects a collection of list elements
 const itemsPerPage = 10; // defines the number of list items to show per page
-let searchList = []; //listItems from a search
+
 
 /*** 
    A showPage function that accepts the page number as its first parameter and the list to
@@ -30,7 +30,7 @@ showPage(1, listItems); //shows first page
 
 function appendPageLinks(list) {
 
-   //Creates the container div inside the page div
+//Creates the container div inside the page div
 const container = document.createElement('div');
 container.className = 'pagination';
 const pageDiv = document.querySelector('.page');
@@ -59,8 +59,8 @@ ul.addEventListener('click', (e)=>{if(e.target.tagName.toLowerCase() === 'a') {
    let pageNumber = e.target.textContent;
    let activeElements = document.getElementsByClassName('active');
    for (let j = 0; j < activeElements.length; j++) {activeElements[j].className = '';} 
-   for (let i = 0; i < listItems.length; i++) {listItems[i].style.display = 'block';} //shows all listItems. Including the ones previously hidden.
-   showPage(pageNumber, listItems) //hides the listItems that shouldn't be displayed
+   for (let i = 0; i < list.length; i++) {list[i].style.display = 'block';} //shows all listItems. Including the ones previously hidden.
+   showPage(pageNumber, list) //hides the listItems that shouldn't be displayed
    e.target.className = 'active';
 }});
 }
@@ -90,20 +90,23 @@ const header = document.getElementsByClassName('page-header')[0];
 header.appendChild(searchDiv);
 searchDiv.appendChild(searchButton);
 
-function performSearch(searchInput, list) {
-   //let pageNumber = document.getElementsByClassName('active')[0].textContent; //determines the current page      
-   searchList = [];
+
+
+function performSearch(searchInput, list) {    
+   let searchList = [];
+   let inputLength = searchInput.value.length;
    for (let i = 0; i<list.length; i++){
-         if (searchInput.value.length === 0) {
-            showPage(1, list); break;}
-         else if(searchInput.value.length > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
+         if (inputLength === 0) {
+            showPage(1, list); 
+            break;}
+         else if(inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
             searchList.push(list[i]);
          }
    } 
    
-      removePaginationLinks()
+   removePaginationLinks()
 
-   if (searchInput.value.length === 0) {appendPageLinks(listItems)}
+   if (inputLength === 0) {appendPageLinks(listItems)}
    else if (searchList.length > 0) {
       for (let i = 0; i<list.length; i++){list[i].style.display = 'none';} //resets the list
       showPage(1, searchList);
