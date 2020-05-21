@@ -96,17 +96,14 @@ function performSearch(searchInput, list) {
    let searchList = [];
    let inputLength = searchInput.value.length;
    for (let i = 0; i<list.length; i++){
-         if (inputLength === 0) {
-            showPage(1, list); 
-            break;}
-         else if(inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
+         if(inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
             searchList.push(list[i]);
          }
    } 
    
    removePaginationLinks()
 
-   if (inputLength === 0) {appendPageLinks(listItems)}
+   if (inputLength === 0) {showPage(1, listItems); appendPageLinks(listItems)}
    else if (searchList.length > 0) {
       for (let i = 0; i<list.length; i++){list[i].style.display = 'none';} //resets the list
       showPage(1, searchList);
@@ -120,11 +117,13 @@ const pageDiv = document.querySelector('.page');
 pageDiv.removeChild(navParent);} //removes pagination menu
    
 
+//fires when the search button gets clicked.
 searchButton.addEventListener('click', (e) => {
    performSearch(inputField, listItems);
    e.preventDefault();
    console.log('button is functional!')});
 
+//creates a live search effect
 inputField.addEventListener('keyup', (e) => {
    performSearch(inputField, listItems);
    e.preventDefault()
