@@ -61,7 +61,7 @@ ul.addEventListener('click', (e)=>{if(e.target.tagName.toLowerCase() === 'a') {
    for (let j = 0; j < activeElements.length; j++) {activeElements[j].className = '';} 
    for (let i = 0; i < list.length; i++) {list[i].style.display = 'block';} //shows all listItems. Including the ones previously hidden.
    showPage(pageNumber, list) //hides the listItems that shouldn't be displayed
-   e.target.className = 'active';
+   e.target.className = 'active'; //reassigns the active class to the new page
 }});
 }
 
@@ -102,7 +102,7 @@ function performSearch(searchInput, list) {
    let inputLength = searchInput.value.length;
    for (let i = 0; i<list.length; i++){
          if(inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
-            searchList.push(list[i]); //
+            searchList.push(list[i]); //creates the list
          }
          else if (inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase()) === false) {
             for (let i = 0; i < list.length; i++) {
@@ -119,6 +119,18 @@ function performSearch(searchInput, list) {
       appendPageLinks(searchList);     //append appropriate menu
    }
 }
+function noResults(searchInput, list) {
+let counter = 0 //keeps track of how many items match the search request
+const h2 = document.getElementsByTagName('h2')[0];
+for (let i = 0; i<list.length; i++){
+if (
+   (list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase()))
+   )
+{counter += 1}}
+if (counter === 0) {h2.textContent = 'No results'}
+else {h2.textContent = 'Students'}
+}
+
 
 //removes pagination menu
 function removePaginationLinks() { 
@@ -130,11 +142,13 @@ pageDiv.removeChild(navParent);}}
 //fires when the search button gets clicked
 searchButton.addEventListener('click', (e) => {
    performSearch(inputField, listItems);
+   noResults(inputField, listItems);
    e.preventDefault();
    console.log('button is functional!')});
 
 //creates a live search effect
 inputField.addEventListener('keyup', (e) => {
    performSearch(inputField, listItems);
+   noResults(inputField, listItems);
    e.preventDefault()
    console.log('input is functional!');})
