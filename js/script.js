@@ -15,9 +15,9 @@ const itemsPerPage = 10; // defines the number of list items to show per page
 function showPage(page, list){
    let startIndex = (page * itemsPerPage)-itemsPerPage;
    let endIndex = page * itemsPerPage;
-for (let i = 0; i < list.length; i++) {
-   list[i].style.display = 'block'; //resets the list
-   if(i < startIndex || i >= endIndex) {list[i].style.display = 'none'; }  
+   for (let i = 0; i < list.length; i++) {
+      list[i].style.display = 'block'; //shows those list items that have been handed to the function
+      if(i < startIndex || i >= endIndex) {list[i].style.display = 'none'; } //hides all items that are on pages that should not currently be displayed
    }
 }
 
@@ -64,10 +64,11 @@ ul.addEventListener('click', (e)=>{if(e.target.tagName.toLowerCase() === 'a') {
    e.target.className = 'active';
 }});
 }
-appendPageLinks(listItems);
+
+appendPageLinks(listItems); //shows pagination menu for the first page
 
 /*** 
-   A search function to search for contacts in the list.
+   The following lines of code create a search field and a search button.
 ***/
 
 //creates the searchDiv and adds 'student-search' class 
@@ -90,34 +91,43 @@ const header = document.getElementsByClassName('page-header')[0];
 header.appendChild(searchDiv);
 searchDiv.appendChild(searchButton);
 
+/*** 
+   A search function to search for contacts in the list.
+***/
 
+function performSearch(searchInput, list) {  
 
-function performSearch(searchInput, list) {    
+   //this part of the functions creates a list of search results
    let searchList = [];
    let inputLength = searchInput.value.length;
    for (let i = 0; i<list.length; i++){
          if(inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){
-            searchList.push(list[i]);
+            searchList.push(list[i]); //
+         }
+         else if (inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase()) === false) {
+            for (let i = 0; i < list.length; i++) {
+               list[i].style.display = 'none';} //hides the list if there are no matches
          }
    } 
    
-   removePaginationLinks()
-
-   if (inputLength === 0) {showPage(1, listItems); appendPageLinks(listItems)}
+   //this part of the function displays the search results
+   removePaginationLinks() //removes the pagination links that need to be refreshed
+   if (inputLength === 0) {showPage(1, listItems); appendPageLinks(listItems)} //shows the start page if the input field is empty
    else if (searchList.length > 0) {
       for (let i = 0; i<list.length; i++){list[i].style.display = 'none';} //resets the list
       showPage(1, searchList);
-      appendPageLinks(searchList); //append appropriate menu
+      appendPageLinks(searchList);     //append appropriate menu
    }
 }
 
+//removes pagination menu
 function removePaginationLinks() { 
 let navParent = document.getElementsByClassName('pagination')[0];
 const pageDiv = document.querySelector('.page');
-pageDiv.removeChild(navParent);} //removes pagination menu
+if (navParent){      //checks if there is an item that can be remove
+pageDiv.removeChild(navParent);}} 
    
-
-//fires when the search button gets clicked.
+//fires when the search button gets clicked
 searchButton.addEventListener('click', (e) => {
    performSearch(inputField, listItems);
    e.preventDefault();
