@@ -9,7 +9,7 @@ const itemsPerPage = 10; // defines the number of list items to show per page
 
 /*** 
    A showPage function that accepts the page number as its first parameter and the list to
-   be paginated as its second. A loop hides all the list items that shouldn't be displayed.
+   be paginated as its second. A loop hides all the list items that should not be displayed.
 ***/
 
 function showPage(page, list){
@@ -60,7 +60,7 @@ function appendPageLinks(list) {
    const activeElements = document.getElementsByClassName('active');
    for (let j = 0; j < activeElements.length; j++) {activeElements[j].className = '';} 
    for (let i = 0; i < list.length; i++) {list[i].style.display = 'block';} //shows all listItems. Including the ones previously hidden.
-   showPage(pageNumber, list) //hides the listItems that shouldn't be displayed
+   showPage(pageNumber, list) //selects the list items that should be displayed i.e. shows the new page
    e.target.className = 'active'; //reassigns the active class to the new page
    }});
 }
@@ -116,7 +116,7 @@ function performSearch(searchInput, list) {
    else if (searchList.length > 0) {
       for (let i = 0; i < list.length; i++){list[i].style.display = 'none';} //resets the list
       showPage(1, searchList);
-      appendPageLinks(searchList);     //append appropriate menu
+      appendPageLinks(searchList); //appends appropriate navigation bar
    }
 }
 
@@ -139,7 +139,7 @@ function noResults(searchInput, list) {
 function removePaginationLinks() { 
    const navParent = document.getElementsByClassName('pagination')[0];
    const pageDiv = document.querySelector('.page');
-   if (navParent){pageDiv.removeChild(navParent);} //checks if there is an item that can be remove before it removes it
+   if (navParent){pageDiv.removeChild(navParent);} //checks if there is an item that can be removed before it removes it
 } 
    
 //fires when the search button gets clicked
