@@ -144,13 +144,9 @@ function removePaginationLinks() {
 //fires when the search button gets clicked
 searchButton.addEventListener('click', (e) => {
    performSearch(inputField, listItems);
-   noResults(inputField, listItems);
-   e.preventDefault();
-   console.log('button is functional!')});
+   e.preventDefault()});
 
 //creates a live search effect
 inputField.addEventListener('keyup', (e) => {
    performSearch(inputField, listItems);
-   noResults(inputField, listItems);
-   e.preventDefault()
-   console.log('input is functional!');})
+   e.preventDefault()})
