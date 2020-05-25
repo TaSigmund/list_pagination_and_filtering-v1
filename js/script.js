@@ -108,9 +108,10 @@ function performSearch(searchInput, list) {
    let searchList = [];
    let counter = 0 //keeps track of how many items match the search request
    const h2 = document.getElementsByTagName('h2')[0];
+   let name = document.getElementsByTagName('h3')
    const inputLength = searchInput.value.length;
    for (let i = 0; i < list.length; i++){
-         if(inputLength > 0 && list[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){ //checks whether the search string exists in the list
+         if(inputLength > 0 && name[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())){ //checks whether the search string exists as a name in the list
             searchList.push(list[i]); //creates the list
             counter += 1;
          }
